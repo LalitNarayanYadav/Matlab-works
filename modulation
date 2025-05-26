@@ -1,0 +1,29 @@
+clc;
+clear all;
+close all;
+binary_str=input('enter a binary input','s');
+bits= binary_str-0;
+bit_rate=1;
+sample_per_bit=100;
+Fs=bit_rate*sample_per_bit;
+digital_signal =[];
+t=[];
+for i=1:length(bits)
+    digital_signal= [digital_signal_bits(i)*ones(1,sample_per_bit)];
+
+    t=[t linspace((i-1),i, sample_per_bit)];
+end
+Fc =5;
+carrier = cos(2*pi*Fc*t);
+modulated_signal = digital_signal.*carrier;
+
+figure;
+plot(t, digital_signal,'k',LineWidth=1.5); hold on;
+plot(t, carrier, 'b--', LineWidth=1);
+plot(t, modulated_signal, 'r', LineWidth=1.5);
+legend('digital signal', 'carrier signal', 'modulated signal');
+xlabel('time-->');
+ylabel('Amplitude-->');
+title('Binary input, Digital signal modulation');
+grid on;
+
