@@ -1,0 +1,17 @@
+clc;
+clear all;
+close all;
+N = 60;
+a=wvtool(blackman(N));
+hold on
+L= 60;
+b=wvtool(hamming(L)); 
+hold on
+K = 60;
+c=wvtool(rectwin(K));
+hold on
+M = 64;
+d=wvtool(triang(M));
+hold on
+O = 64;
+e=wvtool(hann(O));
