@@ -1,0 +1,44 @@
+clc;
+clear;
+
+% Step 1: Input message signal (example: sinusoidal)
+t = 0:0.001:1; % 1 second duration with 1 kHz sampling
+f = 5;         % Signal frequency in Hz
+x = sin(2*pi*f*t); % Message signal
+
+% Step 2: Quantization
+L = 8; % Number of quantization levels
+xmax = max(x);
+xmin = min(x);
+q = (xmax - xmin)/L; % Quantization step size
+partition = xmin + q:q:xmax - q;
+codebook = xmin + q/2:q:xmax - q/2;
+
+[index, quantized] = quantiz(x, partition, codebook);
+
+% Step 3: Encoding to binary
+nBits = ceil(log2(L)); % Number of bits per sample
+binaryPCM = de2bi(index, nBits, 'left-msb');
+
+% Display Results
+subplot(3,1,1);
+plot(t, x);
+title('Original Message Signal');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+subplot(3,1,2);
+stairs(t, quantized);
+title('Quantized Signal');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+subplot(3,1,3);
+plot(t, binaryPCM);
+title('PCM Encoded Binary Signal');
+xlabel('Time (s)');
+ylabel('Binary Value');
+
+% Print first 10 binary PCM samples
+disp('First 10 PCM binary values:');
+disp(binaryPCM(1:10,:));
