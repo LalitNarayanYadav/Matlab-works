@@ -1,0 +1,69 @@
+clc;
+clear;
+
+% Message signal
+data = [1 0 1 1 0 0 1 0];
+bit_duration = 1;
+fs = 1000; 
+t = 0:1/fs:bit_duration-1/fs;
+
+% Carrier frequencies
+fc = 5;      
+f1 = 5; f2 = 10; 
+
+ask_sig = [];
+fsk_sig = [];
+psk_sig = [];
+msg_sig = [];
+
+for i = 1:length(data)
+    if data(i) == 1
+        % ASK
+        ask = cos(2*pi*fc*t);
+        % FSK
+        fsk = cos(2*pi*f1*t);
+        % PSK
+        psk = cos(2*pi*fc*t);
+        
+        msg = ones(1, length(t));
+    else
+        % ASK
+        ask = zeros(1, length(t));
+        % FSK
+        fsk = cos(2*pi*f2*t);
+        % PSK
+        psk = cos(2*pi*fc*t + pi);
+        
+        msg = zeros(1, length(t));
+    end
+
+    ask_sig = [ask_sig ask];
+    fsk_sig = [fsk_sig fsk];
+    psk_sig = [psk_sig psk];
+    msg_sig = [msg_sig msg];
+end
+
+% Time vector
+T = 0:1/fs:bit_duration*length(data)-1/fs;
+
+% Plotting
+figure;
+subplot(4,1,1);
+plot(T, msg_sig, 'k');
+title('Message Signal');
+ylim([-1.5 1.5]); xlabel('Time'); ylabel('Amplitude');
+
+subplot(4,1,2);
+plot(T, ask_sig, 'b');
+title('ASK Signal');
+xlabel('Time'); ylabel('Amplitude');
+
+subplot(4,1,3);
+plot(T, fsk_sig, 'r');
+title('FSK Signal');
+xlabel('Time'); ylabel('Amplitude');
+
+subplot(4,1,4);
+plot(T, psk_sig, 'm');
+title('PSK Signal');
+xlabel('Time'); ylabel('Amplitude');
