@@ -1,0 +1,28 @@
+function X = myFFT(x)
+    N = length(x);
+    if N <= 1
+        X = x;
+    else
+        even = myFFT(x(1:2:end));
+        odd = myFFT(x(2:2:end));
+        W = exp(-2i*pi*(0:N/2-1)/N);
+        X = [even + W .* odd, even - W .* odd];
+    end
+end
+
+% Test signal
+x = [1 2 3 4 0 0 0 0];  % zero-padded to length 8 (power of 2)
+
+% Manual FFT
+X_manual = myFFT(x);
+
+% Plot
+n = 0:length(x)-1;
+f = 0:length(x)-1;
+
+figure;
+stem(f, abs(X_manual));
+title('Magnitude Spectrum (Manual FFT)');
+xlabel('Frequency bin');
+ylabel('|X(f)|');
+grid on;
