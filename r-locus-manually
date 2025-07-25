@@ -1,0 +1,20 @@
+num = [1];               
+den = [1 5 6];           
+K_vals = linspace(0, 100, 1000); 
+nK = length(K_vals);
+roots_mat = [];
+
+for i = 1:nK
+    K = K_vals(i);
+    char_eq = den + K * [num, zeros(1, length(den) - length(num))];
+    poles = roots(char_eq);
+    roots_mat = [roots_mat; poles.'];
+end
+
+figure;
+plot(real(roots_mat), imag(roots_mat), '.b');
+title('Root Locus (Manual)');
+xlabel('Real Axis');
+ylabel('Imaginary Axis');
+grid on;
+axis equal;
