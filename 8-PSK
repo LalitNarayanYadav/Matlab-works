@@ -1,0 +1,24 @@
+N = 1000;
+data = randi([0 7], 1, N);
+M = 8;
+phase = 2 * pi * data / M;
+symbols = exp(1j * phase);
+
+figure;
+plot(real(symbols), imag(symbols), 'o');
+title('8-PSK Constellation');
+xlabel('In-Phase');
+ylabel('Quadrature');
+grid on;
+axis equal;
+
+snr = 10;
+rx_symbols = awgn(symbols, snr, 'measured');
+
+figure;
+plot(real(rx_symbols), imag(rx_symbols), 'x');
+title(['Received 8-PSK Symbols (SNR = ', num2str(snr), ' dB)']);
+xlabel('In-Phase');
+ylabel('Quadrature');
+grid on;
+axis equal;
