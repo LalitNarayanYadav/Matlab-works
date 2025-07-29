@@ -1,0 +1,18 @@
+dt = 0.01;
+t = 0:dt:5;
+u = sin(t);              % I/p signal
+
+
+y = zeros(size(t));
+
+% Trapezoidal integration
+for k = 2:length(t)
+    y(k) = y(k-1) + 0.5 * (u(k) + u(k-1)) * dt;
+end
+
+% Plot
+plot(t, y, 'r', 'LineWidth', 2)
+xlabel('Time (s)')
+ylabel('Integrated Output')
+title('Manual Integrator using Trapezoidal Rule')
+grid on
