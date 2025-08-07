@@ -1,0 +1,28 @@
+n = input('Enter a decimal number: ');
+if n >= 0
+    bin = dec2bin(n);
+else
+    bin = dec2bin(abs(n));
+end
+len = length(bin);
+ones_comp = '';
+for i = 1:len
+    if bin(i) == '0'
+        ones_comp = [ones_comp '1'];
+    else
+        ones_comp = [ones_comp '0'];
+    end
+end
+twos_comp = ones_comp;
+carry = 1;
+for i = len:-1:1
+    if ones_comp(i) == '1' && carry == 1
+        twos_comp(i) = '0';
+    elseif ones_comp(i) == '0' && carry == 1
+        twos_comp(i) = '1';
+        carry = 0;
+    end
+end
+disp(['Binary: ' bin])
+disp(['1''s Complement: ' ones_comp])
+disp(['2''s Complement: ' twos_comp])
