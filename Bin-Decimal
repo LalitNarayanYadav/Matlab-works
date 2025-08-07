@@ -1,0 +1,7 @@
+binary = input('Enter a binary number: ', 's');
+decimal = 0;
+len = length(binary);
+for i = 1:len
+    decimal = decimal + str2double(binary(i)) * 2^(len - i);
+end
+disp(['Decimal: ' num2str(decimal)])
