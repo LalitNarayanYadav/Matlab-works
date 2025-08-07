@@ -1,0 +1,8 @@
+n = input('Enter a decimal number: ');
+binary = '';
+while n > 0
+    r = mod(n, 2);
+    binary = [num2str(r) binary];
+    n = floor(n / 2);
+end
+disp(['Binary: ' binary])
