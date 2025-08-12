@@ -1,0 +1,47 @@
+% Manual FFT Implementation (Radix-2 Cooley-Tukey)
+% Input signal
+x = [1 2 3 4];   % example signal
+N = length(x);
+
+% Check if N is a power of 2
+if mod(log2(N),1) ~= 0
+    error('Length of input must be a power of 2.');
+end
+
+% Bit-reversal permutation
+n = 0:N-1;
+rev = bitrevorder_custom(n);  % custom bit reversal
+x = x(rev + 1);
+
+% FFT computation
+stages = log2(N);
+for s = 1:stages
+    m = 2^s;                % block size
+    half_m = m/2;           % half block size
+    W_m = exp(-1j * 2 * pi / m); % primitive m-th root of unity
+    
+    for k = 0:m:N-1
+        for j = 0:half_m-1
+            t = W_m^j * x(k + j + half_m + 1);
+            u = x(k + j + 1);
+            x(k + j + 1) = u + t;
+            x(k + j + half_m + 1) = u - t;
+        end
+    end
+end
+
+% Output FFT result
+X = x
+
+% -------------------------
+% Function for bit reversal
+function rev = bitrevorder_custom(n)
+    N = length(n);
+    bits = log2(N);
+    rev = zeros(size(n));
+    for i = 1:N
+        b = dec2bin(n(i), bits);
+        rb = fliplr(b);
+        rev(i) = bin2dec(rb);
+    end
+end
